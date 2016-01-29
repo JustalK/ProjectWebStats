@@ -1,0 +1,256 @@
+@CHARSET "ISO-8859-1";
+
+/*==================================================================================================================
+STYLE BOTTOM
+==================================================================================================================*/
+
+.bar-bottom {
+	background: #e5e9e9;
+	height: 50px;
+}
+
+.bar-bottom-border {
+	border-top: 1px solid #bdbdbd;
+}
+
+.bar-top-border {
+	border-top: 1px solid #bdbdbd;
+	background: #1861a9;
+}
+
+.bottom-topright { 
+	width: 0; 
+	height: 0; 
+	border-top: 50px solid #dddddd;
+	border-left: 50px solid transparent;
+	float: right;
+	z-index:1;
+}
+
+#bottom-topright-effect-1 { 
+	width: 0; 
+	height: 0; 
+	border-top: 50px solid #bdbdbd; 
+	border-left: 50px solid transparent;
+	float: right;
+	right: 1px;
+	z-index:0;
+}
+
+#bottom-topleft { 
+	width: 0; 
+	height: 0; 
+	border-top: 50px solid #dddddd;
+	border-right: 50px solid transparent; 
+	float: left;
+	z-index:1;
+}
+
+#bottom-topleft-effect-1 { 
+	width: 0; 
+	height: 0; 
+	border-top: 50px solid #bdbdbd;
+	border-right: 50px solid transparent; 
+	float: left;
+	left: 1px;
+	z-index:0;
+}
+
+.bar-bottom-top {
+	background: #dddddd;
+}
+
+.bar-bottom-top-border {
+	border-bottom: 1px solid #bdbdbd;
+}
+
+.bar-bottom-top-border-right {
+	border-right: 1px solid #bdbdbd;
+}
+
+.bar-bottom-top-border-left {
+	border-left: 1px solid #bdbdbd;
+}
+
+.btr, .btl {
+	cursor:pointer;
+}
+
+.button-add-player {
+	text-align: center;
+	border: 1px solid #bdbdbd;
+	height: 60px;
+	line-height: 60px;
+	margin-bottom:20px;
+	cursor:pointer;
+}
+
+.button-add-player-out {
+	background: #dddddd;
+}
+
+.button-add-player-hover {
+	background: "#f2f2f2";
+}
+
+.button-add-player-selected {
+	background: "#f2f2f2";
+}
+
+/*==================================================================================================================
+STYLE MID
+==================================================================================================================*/
+
+.bar-mid {
+	background: #1861a9;
+	height: 250px;
+}
+
+.table-row-size {
+	height:70px;
+}
+
+.table-mid {
+	background: #f4f4f4;
+	border: 1px solid #bdbdbd;
+	height: 80%;
+	cursor:default;
+}
+
+/*==================================================================================================================
+STYLE TOP
+==================================================================================================================*/
+.bar-top {
+	background: #e5e9e9;
+	height: 50px;
+}
+
+.button-border-left {
+	border-left: 1px solid #bdbdbd;
+}
+
+.button-border-right {
+	border-right: 1px solid #bdbdbd;
+}
+
+.button-border-bottom,.button-top-unselected {
+	background: #dddddd;
+	border-bottom: 1px solid #bdbdbd;
+}
+
+.button-top-selected {
+	background: #f2f2f2;
+	border-bottom: 1px solid #f2f2f2;
+}
+
+.button-unused {
+	background: #dddddd;
+}
+
+.button-top-hover {
+	background: #f2f2f2;
+}
+
+.button-player {
+	cursor:pointer;
+}
+
+/*==================================================================================================================
+CONNECT
+==================================================================================================================*/
+
+.button-connection {
+	height: 150px;
+	line-height:150px;
+	border: 1px solid #bdbdbd;
+	margin-bottom:50px;
+	background: #f2f2f2;
+}
+
+.fond {
+	background: #1861a9;
+}
+
+.titleText {
+	font-size: 20px;
+	font-style: bold; 
+}
+
+/*==================================================================================================================
+Basic
+==================================================================================================================*/
+html,body
+{
+	background: #e5e9e9;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	overflow-x: hidden;
+	font-family: 'Helvetica Neue', sans-serif;
+	text-align: justify; 
+	text-justify: inter-word;
+	font-size: 14px;
+}
+
+p {
+	display:inline;
+	margin: 0px 5px 0px;
+}
+
+.absolute {
+	position: absolute;
+}
+
+.relative {
+	position: relative;
+}
+
+.right {
+	right:0;
+}
+
+.left {
+	left:0;
+}
+
+.max-height {
+	height: 100%;
+}
+
+.max-width {
+	width: 100%;
+}
+
+.no-padding-right {
+	padding-right:0px;
+}
+
+.no-padding-left {
+	padding-left:0px;
+}
+
+.vertical-align {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.vertical-align-only {
+	display: flex;
+	align-items: center;
+}
+
+.test {
+	background: #FF0000;
+}
+
+.annotation {
+	font-size: 11px;
+	font-style: italic; 
+}
+
+.bigText {
+	font-size: 20px;
+	color: #FFFFFF;
+	font-style: bold; 
+}
