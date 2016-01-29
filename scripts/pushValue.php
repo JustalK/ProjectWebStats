@@ -80,17 +80,45 @@
 			$tmpshoot = $tmpshoot.$exShoot[$i].",";
 		}
 		
-		$totalScore = $player[0]["SCORES"]+$score-$exScore[sizeof($exScore)-1];
-		$totalGold = $player[0]["GOLD"]+$gold-$exGold[sizeof($exGold)-1];
-		$totalKill = $player[0]["KILLS"]+$zombie-$exKill[sizeof($exKill)-1];
-		$totalTower = $player[0]["TOWERS"]+$tower-$exTower[sizeof($exTower)-1];
-		$totalShoot = $player[0]["SHOOTS"]+$shoot-$exShoot[sizeof($exShoot)-1];
+		if($exScore[sizeof($exScore)-1]==$score) {
+			$totalScore = $player[0]["SCORES"];
+			$tmpscore = $tmpscore.($exScore[sizeof($exScore)-1]);
+		} else {
+			$totalScore = $player[0]["SCORES"]+$score-$exScore[sizeof($exScore)-1];
+			$tmpscore = $tmpscore.($exScore[sizeof($exScore)-1]+$score);
+		}
 		
-		$tmpscore = $tmpscore.($exScore[sizeof($exScore)-1]+$score);
-		$tmpgold = $tmpgold.($exGold[sizeof($exGold)-1]+$gold);
-		$tmpkill = $tmpkill.($exKill[sizeof($exKill)-1]+$zombie);
-		$tmptower = $tmptower.($exTower[sizeof($exTower)-1]+$tower);
-		$tmpshoot = $tmpshoot.($exShoot[sizeof($exShoot)-1]+$shoot);
+		if($exGold[sizeof($exGold)-1]==$gold) {
+			$totalGold = $player[0]["GOLD"];
+			$tmpgold = $tmpgold.($exGold[sizeof($exGold)-1]);
+		} else {
+			$totalGold = $player[0]["GOLD"]+$gold-$exGold[sizeof($exGold)-1];
+			$tmpgold = $tmpgold.($gold-$exGold[sizeof($exGold)-1]);
+		}
+		
+		if($exKill[sizeof($exKill)-1]==$zombie) {
+			$totalKill = $player[0]["KILLS"];
+			$tmpkill = $tmpkill.($exKill[sizeof($exKill)-1]);
+		} else {
+			$totalKill = $player[0]["KILLS"]+$zombie-$exKill[sizeof($exKill)-1];
+			$tmpkill = $tmpkill.($zombie-$exKill[sizeof($exKill)-1]);
+		}
+		
+		if($exTower[sizeof($exTower)-1]==$tower) {
+			$totalTower = $player[0]["TOWERS"];
+			$tmptower = $tmptower.($exTower[sizeof($exTower)-1]);
+		} else {
+			$totalTower = $player[0]["TOWERS"]+$tower-$exTower[sizeof($exTower)-1];
+			$tmptower = $tmptower.($tower-$exTower[sizeof($exTower)-1]);
+		}
+		
+		if($exShoot[sizeof($exShoot)-1]==$shoot) {
+			$totalShoot = $player[0]["SHOOTS"];
+			$tmpshoot = $tmpshoot.($exShoot[sizeof($exShoot)-1]);
+		} else {
+			$totalShoot = $player[0]["SHOOTS"]+$shoot-$exShoot[sizeof($exShoot)-1];
+			$tmpshoot = $tmpshoot.($shoot-$exShoot[sizeof($exShoot)-1]);
+		}
 		
 		update("PLAYERS", array("CURRENT_SCORES"=>$tmpscore,
 				"CURRENT_GOLD"=>$tmpgold,

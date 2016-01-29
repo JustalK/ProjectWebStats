@@ -8,6 +8,7 @@
 	<!-- Framework -->
 	<script src="js/jquery.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
+	<script src="https://cdn.socket.io/socket.io-1.4.3.js"></script>
 	<script src="js/chart.js"></script>
 	<script src="js/connect.js"></script>
 	
@@ -24,8 +25,8 @@
 	clean("PLAYERS");
 ?>
 	<div class="container-fluid max-height fond">
-		<div class="row bar-top" style="margin-bottom:50px;">
-			<div class="col-md-12 col-sm-12 col-xs-12 max-height button-border-bottom vertical-align titleText">TOWER DEFENSE</div>
+		<div class="row" style="margin-bottom:50px;">
+			<div class="col-md-12 col-sm-12 col-xs-12 max-height vertical-align" style="height:150px;"><img src="imgs/logo.png" class="img-responsive" alt="Pion"></div>
 		</div>
 		
 		<div class="row">

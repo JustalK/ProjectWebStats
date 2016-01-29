@@ -117,6 +117,10 @@ STYLE MID
 	cursor:default;
 }
 
+#malus,#bonus {
+	cursor:pointer;
+}
+
 /*==================================================================================================================
 STYLE TOP
 ==================================================================================================================*/
@@ -160,7 +164,7 @@ CONNECT
 ==================================================================================================================*/
 
 .button-connection {
-	height: 150px;
+	height: 100px;
 	line-height:150px;
 	border: 1px solid #bdbdbd;
 	margin-bottom:50px;
@@ -190,6 +194,7 @@ html,body
 	text-align: justify; 
 	text-justify: inter-word;
 	font-size: 14px;
+	overflow:hidden;
 }
 
 p {

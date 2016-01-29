@@ -8,6 +8,7 @@
 	<!-- Framework -->
 	<script src="js/jquery.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
+	<script src="https://cdn.socket.io/socket.io-1.4.3.js"></script>
 	<script src="js/chart.js"></script>
 	
 	<!-- My own script -->
@@ -77,6 +78,7 @@
 ?>
 <body>	
 	<div id="name" style="display: none;"><?php echo $name; ?></div>
+	<div id="bmalus" style="display: none;">1</div>
 	<div id="menu" style="display: none;"><?php echo $menu; ?></div>
 	<?php for($i = 0;$i<$nbplayers;$i++) { ?>
 		<div id="color<?php echo $i; ?>" style="display: none;"><?php echo $colors_players[$i]; ?></div>
@@ -92,10 +94,10 @@
 			<?php } ?>
 		</div>
 	</div>
-	
+		
 	<div class="container-fluid max-height">
 		<div class="row bar-top">
-			<div class="col-md-2 col-sm-2 col-xs-2 max-height button-border-bottom"></div>
+			<div class="col-md-2 col-sm-2 col-xs-2 max-height button-border-bottom"><img src="imgs/logo.png" class="img-responsive" alt="Pion"></div>
 			<?php if($nbplayers>0) { ?>
 				<div data-color="<?php echo $colors_players[0]; ?>" class="button-player col-md-2 col-sm-2 col-xs-2 max-height button-border-left vertical-align button-top-unselected"><?php echo $name_players[0]; ?></div>
 			<?php } ?>
@@ -129,19 +131,33 @@
 		<div class="row bar-mid" style="position:relative;top: 0;">
 			<div class="content-mid max-height">
 			
-				<!-- Le cadre qui est en dessous l'image du pion -->
-				<div class="col-md-2  col-sm-2 col-xs-2 col-md-offset-2 col-sm-offset-2 col-xs-offset-2 max-height vertical-align absolute">
-					<div class="vertical-align relative">
-						 <img src="imgs/cadre.png" class="img-responsive" alt="Cadre"> 
+					<!-- Le cadre qui est en dessous l'image du pion -->
+					<div class="col-md-2  col-sm-2 col-xs-2 col-md-offset-2 col-sm-offset-2 col-xs-offset-2 max-height vertical-align absolute">
+						<div class="vertical-align relative">
+							 <img src="imgs/cadre.png" class="img-responsive" alt="Cadre"> 
+						</div>
 					</div>
-				</div>
-				
-				<!-- Le pion qui est au dessus de l'image du cadre -->
-				<div class="col-md-2 col-sm-2 col-xs-2 col-md-offset-2 col-sm-offset-2 col-xs-offset-2 max-height vertical-align absolute">
-					<div class="vertical-align relative">
-						 <img src="<?php echo 'imgs/'.$colors.'.png'; ?>" class="img-responsive" alt="Pion"> 
+					
+					<!-- Le pion qui est au dessus de l'image du cadre -->
+					<div class="col-md-2 col-sm-2 col-xs-2 col-md-offset-2 col-sm-offset-2 col-xs-offset-2 max-height vertical-align absolute">
+						<div class="vertical-align relative">
+							 <img src="<?php echo 'imgs/'.$colors.'.png'; ?>" class="img-responsive" alt="Pion">
+						</div>
 					</div>
-				</div>
+
+					<div class="col-md-2 col-sm-2 col-xs-2 col-md-offset-2 col-sm-offset-2 col-xs-offset-2 max-height absolute">
+						<div id="bonus" style="position:relative;top:180px;left:15px;z-index:1000;background:#dddddd;width:90px;height:40px;line-height:40px;text-align: center;border: 1px solid #bdbdbd;">
+							BONUS
+						</div>
+						
+						<div id="malus" style="position:absolute;top:180px;right:29px;z-index:1000;background:#dddddd;width:90px;height:40px;line-height:40px;text-align: center;border: 1px solid #bdbdbd;">
+							MALUS
+						</div>
+						
+						<div id="resultbmalus" style="position:absolute;top:140px;right:29px;z-index:1000;background:#f2f2f2;width:200px;height:30px;line-height:30px;text-align: center;border: 1px solid #bdbdbd;">
+							SCORE x 1
+						</div>
+					</div>
 				
 				<!-- Le tableau de valeur -->
 				<div class="col-md-6 col-sm-6 col-xs-6 col-md-offset-4 col-sm-offset-4 col-xs-offset-4 max-height vertical-align">
@@ -196,14 +212,14 @@
 		
 		<div class="row" style="padding-top:20px;">
 			<div class="col-md-offset-2 col-md-7" style="height: 30px;border-top: 1px solid #bdbdbd;border-left: 1px solid #bdbdbd;border-right: 1px solid #bdbdbd;">
-				qsdqds
+				
 			</div>
-			<div id="container-graph" class="col-md-offset-2 col-md-7" style="height: 500px;border-left: 1px solid #bdbdbd;border-right: 1px solid #bdbdbd;border-bottom: 1px solid #bdbdbd;">
+			<div id="container-graph" class="col-md-offset-2 col-md-7" style="height: 300px;border-left: 1px solid #bdbdbd;border-right: 1px solid #bdbdbd;border-bottom: 1px solid #bdbdbd;">
 				<canvas id="graph">
 				</canvas>
 			</div>
 			
-			<div class="col-md-1" style="height: 500px;display:flex;justify-content: center;">
+			<div class="col-md-1" style="height: 300px;display:flex;justify-content: center;">
 				<div style="align-self: center;width:80%;">
 					<?php if($nbplayers>0) { ?>
 						<div id="btp1" class="button-add-player button-add-player-out" style="color: <?php echo $colors_players[0]; ?>"><?php echo $name_players[0]; ?></div>
@@ -227,7 +243,7 @@
 		<!-- Le footer -->
 		<div id="blblblb" class="row bar-bottom bar-top-border max-width" style="position:absolute;bottom: 0;">
 			<div class="col-md-12 max-height vertical-align">
-				Justal Kévin - PolyWeb @ V 1.1
+				Justal K$#233vin - PolyDefense @ V 1.1
 			</div>
 		</div>
 	</div>

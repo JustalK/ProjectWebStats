@@ -1,12 +1,41 @@
 $(document).ready(function(){
 	pos = 1;
+	var tableColor = [];
 	
-	newPlayer("azeazeaze","BLUE");
-	newPlayer("zzzz","RED");
-	function newPlayer(name,color) {
+	var socket = io.connect("http://192.168.1.21:8081");
+	socket.emit('addStats');
+	
+	socket.on('connection', function (message) {
+		console.log("New player : "+message.pseudo);
+		$("#player"+pos).html(message.pseudo);
+		pos++;
+	});
+
+	$(document).click(function() {
+		console.log("New player : "+message.pseudo);
+		$("#player"+pos).html(message.pseudo);
+		$("#player"+pos).css("color","#FFFFFF");
+		$("#player"+pos).css("font-size","20px");
+		tableColor.push("BLACK");
+		pos++;		
+	});
+	
+	socket.on('playerColorUpdate',function(message) {
+		console.log(message.color+" "+message.pseudo);
+		for(var i=1;i<pos;i++) {
+			if($("#player"+i).html()==message.pseudo) {
+				$("#player"+i).css("background",message.color);
+				tableColor[i] = message.color;
+			}
+		}
+	});
+	
+	socket.on('launchGame', function () {
+		gameStart();
+	});
+	
+	function newPlayer(name,color,pos) {
 		name = name.toUpperCase();
-		$("#player"+pos).html(name);
-		$("#player"+pos).css("background",color);
 		
 		$.ajax({
  	 		method: "POST",
@@ -18,11 +47,13 @@ $(document).ready(function(){
  	 			result = data;
  	 		}
  	 	});
-		pos++;
 	}
 	
 	function gameStart() {
-		window.location.replace("index.php?player="+$("#player1").html()+"&menu=0");
+		for(var i=1;i<pos;i++) {
+			newPlayer($("#player"+i).html(),tableColor[i],i);
+		}
+		window.location.replace("index.php?player="+$("#player1").html().toUpperCase()+"&menu=0");
 	};
 	
 });

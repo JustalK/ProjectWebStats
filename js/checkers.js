@@ -1,5 +1,66 @@
 $(document).ready(function(){
 	
+	var socket = io.connect("http://192.168.1.21:8081");
+	socket.emit('addStats');
+	var startVague = false;
+	var once = true;
+	
+	socket.on('globalUpdate', function (message) {
+		if(startVague || once) {
+			once = false;
+			for(var i=0;i<parseInt($("#nbrplayers").html());i++) {
+				saveNewValue(message.infoPlayers[i].pseudo,message.infoGame.vague,message.infoPlayers[i].score,message.infoPlayers[i].money,0,message.infoPlayers[i].kills,message.infoPlayers[i].nbtowers,message.infoPlayers[i].shots);
+			}
+		}
+	});
+	
+	socket.on('launchVague', function (message) {
+		startVague = true;
+	});
+	
+	socket.on('endVague', function (message) {
+		startVague = false;
+	});
+	
+	$("#bonus").mouseover(function(){
+		$("#bonus").css("background","#f2f2f2");
+	});
+	
+	$("#bonus").mouseout(function(){
+		$("#bonus").css("background","#dddddd");
+	});
+	
+	$("#bonus").click(function() {
+		if(parseInt($("#bmalus").html())==1) {
+			$("#bmalus").html(parseInt($("#bmalus").html())+1);
+			$("#resultbmalus").html("SCORE x "+$("#bmalus").html());
+		} else {
+			$("#bmalus").html(parseInt($("#bmalus").html())+2);
+			$("#resultbmalus").html("SCORE x "+$("#bmalus").html());			
+		}
+		socket.emit('updateBonusMalus', {pseudo: $("#name").html(), bonus: 1, malus: 0});
+	});
+	
+	$("#malus").mouseover(function(){
+		$("#malus").css("background","#f2f2f2");
+	});
+	
+	$("#malus").mouseout(function(){
+		$("#malus").css("background","#dddddd");
+	});
+	
+	$("#malus").click(function() {
+		if(parseInt($("#bmalus").html())==2) {
+			$("#bmalus").html(parseInt($("#bmalus").html())-1);
+			$("#resultbmalus").html("SCORE x "+$("#bmalus").html());
+			socket.emit('updateBonusMalus', {pseudo: $("#name").html(), bonus: 1, malus: 0});
+		} else if(parseInt($("#bmalus").html())>1) {
+			$("#bmalus").html(parseInt($("#bmalus").html())-2);
+			$("#resultbmalus").html("SCORE x "+$("#bmalus").html());
+			socket.emit('updateBonusMalus', {pseudo: $("#name").html(), bonus: 1, malus: 0});			
+		}
+	});
+	
 	var canvas = document.getElementById("graph");
 	canvas.width = $("#container-graph").width();
 	canvas.height = $("#container-graph").height();
@@ -73,10 +134,6 @@ $(document).ready(function(){
 			$(this).addClass("button-add-player-selected");
 		}
 		checkAll($("#name").html(),table_sql[table_mid_position]);
-	});
-	
-	$("#blblblb").click(function() {
-		saveNewValue("MAUREEN",3,12,50,12,6,5,500);
 	});
 			
 	function saveNewValue(name,current_wave,score,gold,wave,zombie,tower,tirs) {
@@ -171,16 +228,16 @@ $(document).ready(function(){
 		var color1 = "rgba(220,220,220,0.2)";
 		var color2 = "rgba(220,220,220,1)";
 		
-		if(playerColor == "BLUE") {
+		if(playerColor == "blue") {
 			color1 = "rgba(0,198,255,0.2)";
 			color2 = "rgba(0,198,255,1)";
-		} else if(playerColor == "RED") {
+		} else if(playerColor == "red") {
 			color1 = "rgba(220,0,0,0.2)";
 			color2 = "rgba(220,0,0,1)";			
-		} else if(playerColor == "YELLOW") {
+		} else if(playerColor == "yellow") {
 			color1 = "rgba(234,255,0,0.2)";
 			color2 = "rgba(234,255,0,1)";			
-		} else if(playerColor == "GREEN") {
+		} else if(playerColor == "green") {
 			color1 = "rgba(0,255,12,0.2)";
 			color2 = "rgba(0,255,12,1)";			
 		}

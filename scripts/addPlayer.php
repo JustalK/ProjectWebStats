@@ -9,6 +9,6 @@
 	$player = select("PLAYERS","*","NAME='.$player_name.'");
 	
 	if(sizeof($player)==0) {
-		insert("PLAYERS", array("NAME"=>"$player_name","ACTIVE"=>1,"POSITION"=>$player_position,"COLORS"=>"$player_color","GAMES"=>0,"SCORES"=>0,"GOLD"=>0,"WAVES"=>0,"KILLS"=>0,"TOWERS"=>0,"SHOOTS"=>0,"CURRENT_GOLD"=>"","CURRENT_SCORES"=>"","CURRENT_WAVES"=>"","CURRENT_KILLS"=>"","CURRENT_TOWERS"=>"","CURRENT_SHOOTS"=>""));
+		insert("PLAYERS", array("NAME"=>"$player_name","ACTIVE"=>1,"POSITION"=>$player_position,"COLORS"=>$player_color,"GAMES"=>0,"SCORES"=>0,"GOLD"=>0,"WAVES"=>0,"KILLS"=>0,"TOWERS"=>0,"SHOOTS"=>0,"CURRENT_GOLD"=>"","CURRENT_SCORES"=>"","CURRENT_WAVES"=>"","CURRENT_KILLS"=>"","CURRENT_TOWERS"=>"","CURRENT_SHOOTS"=>""));
 	}
 ?>
