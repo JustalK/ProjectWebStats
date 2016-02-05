@@ -1,6 +1,6 @@
 <?php
+	define("JOUEUR_MAX",4);
 	define("JOUEUR_DEFAULT", "NON CONNECTE");
-	
 	
 	/** ######################################################################################### **/
 	/** CONFIGURATION SQL **/

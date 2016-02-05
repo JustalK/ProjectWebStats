@@ -1,10 +1,16 @@
 $(document).ready(function(){
-	
+
+/*************************************************************************************************************************
+ * SOCKET ET GESTION DES EVENEMENT DU JEU
+ **************************************************************************************************************************/	
 	var socket = io.connect("http://192.168.1.21:8081");
 	socket.emit('addStats');
 	var startVague = false;
-	var once = true;
 	
+	/**
+	 * Evenement qui renvoie l'ensemble des information du joueur
+	 */
+	var once = true;
 	socket.on('globalUpdate', function (message) {
 		if(startVague || once) {
 			once = false;
@@ -14,52 +20,41 @@ $(document).ready(function(){
 		}
 	});
 	
+	/**
+	 * Evenement qui se declenche a chaque vague lancee
+	 */
 	socket.on('launchVague', function (message) {
 		startVague = true;
 	});
 	
+	/**
+	 * Evenement qui se declenche lors de l'arret des vagues.
+	 */
 	socket.on('endVague', function (message) {
 		startVague = false;
 	});
 	
-	$("#bonus").mouseover(function(){
-		$("#bonus").css("background","#f2f2f2");
-	});
-	
-	$("#bonus").mouseout(function(){
-		$("#bonus").css("background","#dddddd");
-	});
-	
+	/**
+	 * Envoie de l'evenement lors de l'appuie sur le bouton bonus
+	 */
 	$("#bonus").click(function() {
-		if(parseInt($("#bmalus").html())==1) {
-			$("#bmalus").html(parseInt($("#bmalus").html())+1);
-			$("#resultbmalus").html("SCORE x "+$("#bmalus").html());
-		} else {
-			$("#bmalus").html(parseInt($("#bmalus").html())+2);
-			$("#resultbmalus").html("SCORE x "+$("#bmalus").html());			
-		}
 		socket.emit('updateBonusMalus', {pseudo: $("#name").html(), bonus: 1, malus: 0});
 	});
 	
-	$("#malus").mouseover(function(){
-		$("#malus").css("background","#f2f2f2");
-	});
-	
-	$("#malus").mouseout(function(){
-		$("#malus").css("background","#dddddd");
-	});
-	
+	/**
+	 * Envoie de l'evenement lors de l'appuie sur le bouton malus
+	 */
 	$("#malus").click(function() {
 		if(parseInt($("#bmalus").html())==2) {
-			$("#bmalus").html(parseInt($("#bmalus").html())-1);
-			$("#resultbmalus").html("SCORE x "+$("#bmalus").html());
 			socket.emit('updateBonusMalus', {pseudo: $("#name").html(), bonus: 1, malus: 0});
 		} else if(parseInt($("#bmalus").html())>1) {
-			$("#bmalus").html(parseInt($("#bmalus").html())-2);
-			$("#resultbmalus").html("SCORE x "+$("#bmalus").html());
 			socket.emit('updateBonusMalus', {pseudo: $("#name").html(), bonus: 1, malus: 0});			
 		}
 	});
+
+/*************************************************************************************************************************
+ * GESTION DU GRAPHIQUE
+ **************************************************************************************************************************/	
 	
 	var canvas = document.getElementById("graph");
 	canvas.width = $("#container-graph").width();
@@ -80,6 +75,9 @@ $(document).ready(function(){
 	var table_mid_position = 1;
 	var table_right_position;
 	
+	/**
+	 * Initialise le graphique avec les valeur par defaut
+	 */
 	initGraphique();
 	function initGraphique() {
 		table_mid_position = parseInt($("#menu").html());
@@ -92,6 +90,31 @@ $(document).ready(function(){
 		$("#img-right").attr("src","imgs/"+table_button[table_right_position]+"_unselected.png");
 		checkAll($("#name").html(),table_sql[table_mid_position]);
 	}
+	
+	/**
+	 * Permet de sauvegarder l'ensemble des valeurs du joueur
+	 * @param name Le nom du joueur
+	 * @param current_wave La wave actuel du joueur
+	 * @param score Le score actuelle du joueur
+	 * @param gold Les gold actuelle du joueur
+	 * @param wave La wave actuel du joueur
+	 * @param zombie Le nombre de zombie tue actuel
+	 * @param tower Le nombre de tourelles construite
+	 * @param tir Le nombre de tir effectue
+	 */
+	function saveNewValue(name,current_wave,score,gold,wave,zombie,tower,tirs) {
+		$.ajax({
+ 	 		method: "POST",
+ 	 		url: "scripts/pushValue.php",
+ 	 		async: false,
+ 	 		data: { NAME: name, CURRENT_WAVE: current_wave, SCORE: score, GOLD: gold, WAVE: wave, ZOMBIE: zombie, TOWER: tower, TIRS: tirs },
+ 	 		dataType: "html",
+ 	 		success: function(data) {
+ 	 			result = data;
+ 	 		}
+ 	 	});
+		checkAll($("#name").html(),table_sql[table_mid_position]);
+	};
 	
 	/**
 	 * Rotate tout le menu vers la gauche lors de l'appuie sur le bouton
@@ -127,28 +150,12 @@ $(document).ready(function(){
 		checkAll($("#name").html(),table_sql[table_mid_position]);
 	});
 	
+	/**
+	 * Lors de l'appuie sur un bouton des joueurs, check les informations de ce joueur via une ajax request
+	 */
 	$(".button-add-player").click(function() {
-		if($(this).is(".button-add-player-selected")) {
-			$(this).removeClass("button-add-player-selected");
-		} else {
-			$(this).addClass("button-add-player-selected");
-		}
 		checkAll($("#name").html(),table_sql[table_mid_position]);
 	});
-			
-	function saveNewValue(name,current_wave,score,gold,wave,zombie,tower,tirs) {
-		$.ajax({
- 	 		method: "POST",
- 	 		url: "scripts/pushValue.php",
- 	 		async: false,
- 	 		data: { NAME: name, CURRENT_WAVE: current_wave, SCORE: score, GOLD: gold, WAVE: wave, ZOMBIE: zombie, TOWER: tower, TIRS: tirs },
- 	 		dataType: "html",
- 	 		success: function(data) {
- 	 			result = data;
- 	 		}
- 	 	});
-		checkAll($("#name").html(),table_sql[table_mid_position]);
-	};
 	
 	//TODO A refaire
 	$(window).resize(function() {
@@ -209,7 +216,10 @@ $(document).ready(function(){
 			drawGraphique(data0,data1,data2,data3);
 	}
 	
-	
+	/**
+	 * Permet de transformer les data suivant le shema voulu
+	 * cad un tableau sous la forme d'un JSON
+	 */
 	function splitData(data) {
 		var tmp = new Array();
 		if(data!=0) {
@@ -223,6 +233,9 @@ $(document).ready(function(){
 		return tmp;
 	}
 	
+	/**
+	 * Permet de fixer la couleur du graph en fonction de la couleur des joueurs
+	 */
 	function getColors(color) {
 		var playerColor = $("#"+color).html();
 		var color1 = "rgba(220,220,220,0.2)";

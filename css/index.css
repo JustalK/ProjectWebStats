@@ -66,10 +66,12 @@ STYLE BOTTOM
 
 .bar-bottom-top-border-right {
 	border-right: 1px solid #bdbdbd;
+	background:#dddddd;
 }
 
 .bar-bottom-top-border-left {
 	border-left: 1px solid #bdbdbd;
+	background:#dddddd;
 }
 
 .btr, .btl {
@@ -104,6 +106,8 @@ STYLE MID
 .bar-mid {
 	background: #1861a9;
 	height: 250px;
+	position:relative;
+	top: 0;
 }
 
 .table-row-size {
@@ -119,6 +123,7 @@ STYLE MID
 
 #malus,#bonus {
 	cursor:pointer;
+	background: #dddddd;
 }
 
 /*==================================================================================================================
@@ -258,4 +263,25 @@ p {
 	font-size: 20px;
 	color: #FFFFFF;
 	font-style: bold; 
+}
+
+.dnone {
+	display: none;
+}
+
+.mouseover {
+	background:#f2f2f2;
+}
+
+.mouseover2 {
+	border-top:50px solid #f2f2f2;
+}
+
+.positionZ {
+	position:absolute;
+	z-index:1000;
+}
+
+.hbar {
+	height:5px;
 }
